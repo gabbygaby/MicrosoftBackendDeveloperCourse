@@ -1,0 +1,64 @@
+### Unauthorized Request: GET /users without a token
+GET http://localhost:5030/users
+# Expect a 401 Unauthorized response with a JSON error.
+
+### Unauthorized Request: GET /users with an invalid token
+GET http://localhost:5030/users
+Authorization: Bearer INVALID_TOKEN
+# Expect a 401 Unauthorized response with a JSON error.
+
+
+### GET Root ("/") with a valid token
+GET http://localhost:5030/
+Authorization: Bearer YOUR_SECRET_TOKEN
+# Expect response "I am root."
+
+
+### GET /users (list all users) with a valid token
+GET http://localhost:5030/users
+Authorization: Bearer YOUR_SECRET_TOKEN
+# Expect a JSON array of current users.
+
+
+### GET /users/1 (retrieve a user by id) with a valid token
+GET http://localhost:5030/users/1
+Authorization: Bearer YOUR_SECRET_TOKEN
+# Expect the JSON details for User 1.
+
+
+### POST /users (create a new user) with a valid token
+POST http://localhost:5030/users
+Content-Type: application/json
+Authorization: Bearer YOUR_SECRET_TOKEN
+
+{
+  "Username": "user3",
+  "UserAge": 22,
+  "Email": "user3@example.com"
+}
+# Expect a Created response showing the new user with an ID assigned.
+
+
+### PUT /users/3 (update an existing user) with a valid token
+PUT http://localhost:5030/users/3
+Content-Type: application/json
+Authorization: Bearer YOUR_SECRET_TOKEN
+
+{
+  "Username": "user3_updated",
+  "UserAge": 23,
+  "Email": "user3_updated@example.com"
+}
+# Expect a response showing the updated user data.
+
+
+### DELETE /users/3 (delete a user) with a valid token
+DELETE http://localhost:5030/users/3
+Authorization: Bearer YOUR_SECRET_TOKEN
+# Expect an OK response indicating the user was removed.
+
+
+### GET /users/stream (streaming user data) with a valid token
+GET http://localhost:5030/users/stream
+Authorization: Bearer YOUR_SECRET_TOKEN
+# Expect a stream of user data in JSON format.
