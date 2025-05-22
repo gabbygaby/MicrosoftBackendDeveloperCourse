@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeVault</title>
+    <style>
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to SafeVault</h1>
+
+    <!-- Registration Form -->
+    <h2>Register</h2>
+    <form id="register-form">
+        <label for="register-username">Username:</label>
+        <input type="text" id="register-username" name="username" required>
+        <label for="register-email">Email:</label>
+        <input type="email" id="register-email" name="email" required>
+        <label for="register-password">Password:</label>
+        <input type="password" id="register-password" name="password" required>
+        <label for="register-role">Role:</label>
+        <select id="register-role" name="role" required>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+        <button type="submit">Register</button>
+    </form>
+    <div id="register-feedback" class="feedback"></div>
+
+    <!-- Login Form -->
+    <h2>Login</h2>
+    <form id="login-form">
+        <label for="login-username">Username:</label>
+        <input type="text" id="login-username" name="username" required>
+        <label for="login-password">Password:</label>
+        <input type="password" id="login-password" name="password" required>
+        <button type="submit">Login</button>
+    </form>
+    <div id="login-feedback" class="feedback"></div>
+
+    <script>
+        // Handle registration form submission
+        document.getElementById('register-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            console.log('Submitting form data:', Object.fromEntries(formData.entries())); // Debugging
+            const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            body: formData
+            });
+            console.log('Response received:', response); // Debugging
+            const feedback = document.getElementById('register-feedback');
+            if (response.ok) {
+                const result = await response.json();
+                feedback.textContent = result.message || 'Registration successful!';
+                feedback.className = 'feedback success';
+            } else {
+                const error = await response.json();
+                feedback.textContent = error.error || 'Registration failed.';
+                feedback.className = 'feedback error';
+            }
+        };
+
+        // Handle login form submission
+        document.getElementById('login-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                body: formData
+            });
+            const feedback = document.getElementById('login-feedback');
+            if (response.ok) {
+                const result = await response.json();
+                feedback.textContent = result.message || 'Login successful!';
+                feedback.className = 'feedback success';
+                
+                // Redirect the user to the appropriate page based on their role
+                if (result.redirectUrl) {
+                    window.location.href = result.redirectUrl;
+                } else {
+                    feedback.textContent = 'Login successful, but no redirection URL provided.';
+                }
+            } else {
+                const error = await response.json();
+                feedback.textContent = error.error || 'Login failed.';
+                feedback.className = 'feedback error';
+            }
+        };
+    </script>
+</body>
+</html>
