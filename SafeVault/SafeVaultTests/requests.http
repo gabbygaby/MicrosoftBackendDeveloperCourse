@@ -1,0 +1,26 @@
+### Test Login Endpoint
+POST http://localhost:5005/api/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username=newuserA&password=Password123
+
+###
+
+
+### Test Registration Endpoint
+POST http://localhost:5005/api/auth/register
+Content-Type: application/x-www-form-urlencoded
+
+username=newuserA&email=newuserA@example.com&password=Password123&role=admin
+
+###
+
+### Test GetUserProfile Endpoint (with JWT Token)
+GET http://localhost:5005/api/User/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im5ld3VzZXIiLCJyb2xlIjoidXNlciIsIm5iZiI6MTc0Nzg2MTc4NSwiZXhwIjoxNzQ3ODY1Mzg1LCJpYXQiOjE3NDc4NjE3ODV9.6MtWYz2gJ-S3XwntmPZdx2FCFIfJBMIC7v8JcuYBmNM
+
+###
+
+### Test Admin Dashboard Endpoint (with JWT Token)
+GET http://localhost:5005/api/Admin/dashboard
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im5ld3VzZXJBIiwicm9sZSI6ImFkbWluIiwibmJmIjoxNzQ3ODY4NjE0LCJleHAiOjE3NDc4NzIyMTQsImlhdCI6MTc0Nzg2ODYxNCwiaXNzIjoiU2FmZVZhdWx0IiwiYXVkIjoiU2FmZVZhdWx0In0.2chh1jMQ5awE2i_r-ghov5vOMQlNARvrzdCtdNwf7rQ
